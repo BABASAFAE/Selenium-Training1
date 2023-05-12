@@ -1,0 +1,12 @@
+[
+  {
+    "type": "capsule",
+    "nom": "VENEZIA",
+    "quantité": 50
+  },
+  {
+    "type": "machine",
+    "nom": "VENEZIA",
+    "quantité": 1
+  }
+]
