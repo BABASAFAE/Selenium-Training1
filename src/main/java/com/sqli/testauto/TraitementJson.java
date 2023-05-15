@@ -18,6 +18,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.support.PageFactory;
 
 public class TraitementJson  {
     static ExtentTest test;
@@ -65,6 +66,7 @@ public class TraitementJson  {
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
         driver= new ChromeDriver(options);
         driver.manage().window().maximize();
+        //access to website
         driver.get("https://www.nespresso.com/fr/fr/");
         driver.manage().deleteAllCookies();
     }
@@ -77,11 +79,13 @@ public void traitementNesspressoAddProduct() throws IOException, InterruptedExce
 
     System.out.println(arrayList);
     for(int i=0; i< arrayList.size();i++){
-        OrderPageCf1 orderPageCf1=new OrderPageCf1();
-        BasketPage basketPage =new BasketPage();
-        LoginPage loginPage=new LoginPage();
+        HomePage homePage=new HomePage(driver);
+        OrderPageCf1 orderPageCf1=new OrderPageCf1(driver);
+        BasketPage basketPage =new BasketPage(driver);
+        LoginPage loginPage=new LoginPage(driver);
+
         String type=arrayList.get(i).getType();
-        System.out.println("machine type :" + type);
+        System.out.println("machine type :" + type+" home page "+ homePage.buttonDeclinePopup);
         orderPageCf1.ChooseArticle(driver,arrayList.get(i).getType(),arrayList.get(i).getArticle());
         orderPageCf1.AddToBasket(driver);
         System.out.println("size : "+arrayList.size());

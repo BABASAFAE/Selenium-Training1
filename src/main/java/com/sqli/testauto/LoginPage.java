@@ -8,7 +8,14 @@ import org.openqa.selenium.support.ui.FluentWait;
 import java.time.Duration;
 import java.util.NoSuchElementException;
 
-public class LoginPage {
+public class LoginPage extends HomePage {
+    WebDriver driver;
+
+    public LoginPage(WebDriver driver) {
+        super(driver);
+        this.driver=driver;
+    }
+
     //check when I click proced checkout button from basket then the site redirect destination  to login
     public String checkLogin(WebDriver driver) throws InterruptedException {
         //Fluent wait setup
@@ -18,9 +25,9 @@ public class LoginPage {
                 .ignoring(NoSuchElementException.class);
         Actions actions = new Actions(driver);
         //click to proced checkout button
-        WebElement buttonPprocedCheckout= driver.findElement(By.xpath("//button[@id='ta-mini-basket__checkout']"));
-        buttonPprocedCheckout.click();
-        WebElement loginElement=(WebElement) waitfluente.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='loginContainer']/h2[@class='heading']")));
+        waitfluente.until(ExpectedConditions.elementToBeClickable(super.buttonProceedTocheckout));
+        super.buttonProceedTocheckout.click();
+       WebElement loginElement=(WebElement) waitfluente.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='loginContainer']/h2[@class='heading']")));
         //get title of header for the page
         actions.moveToElement(loginElement);
         String titleLoginPage= loginElement.getText();

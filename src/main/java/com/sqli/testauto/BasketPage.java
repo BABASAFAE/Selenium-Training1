@@ -7,7 +7,13 @@ import org.openqa.selenium.support.ui.FluentWait;
 import java.time.Duration;
 import java.util.NoSuchElementException;
 
-public class BasketPage {
+public class BasketPage extends HomePage{
+    WebDriver driver;
+
+    public BasketPage(WebDriver driver) {
+        super(driver);
+        this.driver=driver;
+    }
 
     //check if the product is in the basket
     public String procedToCheckout(WebDriver driver,String productTitle) throws InterruptedException {
@@ -17,8 +23,10 @@ public class BasketPage {
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class);
         //open basket
-        WebElement basket = (WebElement)  waitfluentb.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id=\"ta-mini-basket__open\"]")));
-        basket.click();
+        /*WebElement basket = (WebElement)  waitfluentb.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id=\"ta-mini-basket__open\"]")));
+        basket.click();*/
+        waitfluentb.until(ExpectedConditions.elementToBeClickable(super.buttonOpenBasket));
+        super.buttonOpenBasket.click();
         // Move to product in basket and get title
         WebElement  productInBasket=(WebElement)  waitfluentb.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(productTitle)));
         String titleProductInBasket= productInBasket.getText();
