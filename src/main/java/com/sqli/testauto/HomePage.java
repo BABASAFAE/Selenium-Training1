@@ -1,9 +1,13 @@
 package com.sqli.testauto;
 
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.io.IOException;
 
 public class HomePage {
     //Factory Page
@@ -20,9 +24,11 @@ public class HomePage {
     @FindBy(xpath = "//div[@id='loginContainer']/h2[@class='heading']")
     WebElement TitlePopupLogin;
 
+
     public HomePage(WebDriver driver) {
 
         PageFactory.initElements(driver, this);
+
     }
 
 

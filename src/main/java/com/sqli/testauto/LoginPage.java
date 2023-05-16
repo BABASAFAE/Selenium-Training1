@@ -1,4 +1,6 @@
 package com.sqli.testauto;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,7 +19,7 @@ public class LoginPage extends HomePage {
     }
 
     //check when I click proced checkout button from basket then the site redirect destination  to login
-    public String checkLogin(WebDriver driver) throws InterruptedException {
+    public String checkLogin(WebDriver driver, String productName, ExtentTest test) throws InterruptedException {
         //Fluent wait setup
         FluentWait waitfluente = new FluentWait(driver)
                 .withTimeout(Duration.ofSeconds(10))
@@ -31,6 +33,11 @@ public class LoginPage extends HomePage {
         //get title of header for the page
         actions.moveToElement(loginElement);
         String titleLoginPage= loginElement.getText();
+
+        if(titleLoginPage.contains("SE CONNECTER")||titleLoginPage.contains("LOG IN"))
+        {test.log(LogStatus.PASS, "login page appears"+productName);}
+        else
+        {test.log(LogStatus.FAIL, "Test Failed login page"+productName);}
         return titleLoginPage;
     }
 
