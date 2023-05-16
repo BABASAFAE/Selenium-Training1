@@ -1,7 +1,4 @@
 package com.sqli.testauto;
-
-import org.checkerframework.common.returnsreceiver.qual.This;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,9 +13,15 @@ import java.util.NoSuchElementException;
 
 import static org.openqa.selenium.By.*;
 
-public class OrderPageCf1 extends HomePage {
+public class OrderPageCf1  {
 
 WebDriver driver;
+    @FindBy(xpath = "//button[@id='_evidon-barrier-declinebutton']")
+    WebElement buttonDeclinePopup;
+    @FindBy(xpath = "//button[contains(@id,'ta-product-details__add-to-bag-button')]")
+    WebElement buttonAddToBag;
+    @FindBy(xpath = " //button[@id='ta-quantity-selector__predefined-1']")
+    WebElement buttonChooseQuantity;
 
     public void ChooseArticle(WebDriver driver,String type,String articledata){
         //Fluent wait setup
@@ -30,8 +33,8 @@ WebDriver driver;
         System.out.println("title test "+ driver.getTitle());
 
         try{
-            waitfluent.until(ExpectedConditions.elementToBeClickable(super.buttonDeclinePopup));
-            super.buttonDeclinePopup.click();
+            waitfluent.until(ExpectedConditions.elementToBeClickable(buttonDeclinePopup));
+            buttonDeclinePopup.click();
 
         }catch(Exception ex) {
             System.out.println("decline popup not visible"); }
@@ -56,18 +59,18 @@ WebDriver driver;
         Thread.sleep(3000);
         //explicit wait button will be cliquable  //go and click in button add to basket
         //driver.navigate().refresh();
-        wait.until(ExpectedConditions.elementToBeClickable(super.buttonAddToBag));
-        super.buttonAddToBag.click();
+        wait.until(ExpectedConditions.elementToBeClickable(buttonAddToBag));
+        buttonAddToBag.click();
         //go and select quantite 10 to added into basket
 
-        wait.until(ExpectedConditions.elementToBeClickable(super.buttonChooseQuantity));
-        super.buttonChooseQuantity.click();
+        wait.until(ExpectedConditions.elementToBeClickable(buttonChooseQuantity));
+        buttonChooseQuantity.click();
         Thread.sleep(3000);
 
     }
 
     public OrderPageCf1(WebDriver driver) {
-        super(driver);
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 }

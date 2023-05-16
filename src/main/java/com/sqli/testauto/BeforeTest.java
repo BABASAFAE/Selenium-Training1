@@ -8,7 +8,6 @@ import com.relevantcodes.extentreports.ExtentTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
