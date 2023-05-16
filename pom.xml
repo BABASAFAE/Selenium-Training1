@@ -54,11 +54,11 @@
       <artifactId>fillo</artifactId>
       <version>1.18</version>
     </dependency>
-      <dependency>
+     <!-- <dependency>
           <groupId>com.guicedee</groupId>
           <artifactId>fasterxml-bom</artifactId>
           <version>1.2.2.1-jre17</version>
-      </dependency>
+      </dependency>-->
     <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
@@ -96,6 +96,51 @@
       <version>7.12.0</version>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-jvm-deps -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-jvm-deps</artifactId>
+      <version>1.0.6</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Thanks for using https://jar-download.com -->
+
+
+
+
 
   </dependencies>
+
+
+  <build>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+     <plugins>
+  <plugin>
+    <groupId>net.masterthought</groupId>
+    <artifactId>maven-cucumber-reporting</artifactId>
+    <version>5.7.1</version>
+
+    <executions>
+      <execution>
+        <id>execution</id>
+        <phase>test</phase>
+        <goals>
+          <goal>generate</goal>
+        </goals>
+        <configuration>
+          <projectName>Cucumber Reporting Example</projectName>
+          <outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
+          <inputDirectory>${project.build.directory}</inputDirectory>
+          <jsonFiles>
+            <param>**/*.json</param>
+          </jsonFiles>
+        </configuration>
+      </execution>
+    </executions>
+  </plugin>
+      </plugins>
+    </pluginManagement>
+
+  </build>
 </project>

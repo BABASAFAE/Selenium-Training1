@@ -1,4 +1,5 @@
 package com.sqli.testauto;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -7,11 +8,11 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 import java.util.NoSuchElementException;
 
-
-import static org.openqa.selenium.By.*;
+import static org.openqa.selenium.By.xpath;
 
 public class OrderPageCf1  {
 

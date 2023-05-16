@@ -1,12 +1,14 @@
 package com.sqli.testauto;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class TraitementJson {
     static ExtentTest test;
