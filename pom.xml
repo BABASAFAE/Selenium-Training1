@@ -129,9 +129,9 @@
           <goal>generate</goal>
         </goals>
         <configuration>
-          <projectName>Cucumber Reporting Example</projectName>
-          <outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
-          <inputDirectory>${project.build.directory}</inputDirectory>
+          <projectName>Demo Reports</projectName>
+          <outputDirectory>${project.basedir}/target</outputDirectory>
+          <inputDirectory>${project.basedir}/target</inputDirectory>
           <jsonFiles>
             <param>**/*.json</param>
           </jsonFiles>
@@ -139,6 +139,7 @@
       </execution>
     </executions>
   </plugin>
+
       </plugins>
     </pluginManagement>
 

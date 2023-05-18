@@ -1,17 +1,20 @@
 [
   {
     "name": "Creatista Pro",
-    "quantite": 50,
+    "quantite": 1,
     "type": "machines",
-    "article": "//article[contains(@data-ta-product-name,'Creatista Pro')]/div[contains(@class,'ProductListElement__content ProductListElement__content--machine')]/a[contains(@href,'/creatista-pro')]",
-     "productTitle" : "//td[contains(@headers,'machines_original creatista-pro')and (@class='MiniBasketItem__title')]"
+    "article": "creatista-pro",
+   "productTitle" : "machines_original creatista-pro"
+
+
 
   },
   {
     "name": "Jamaica Blue Mountain",
-    "quantite": 50,
+    "quantite": 10,
     "type": "capsules",
-    "article": "//article[contains(@class,'ProductCard') and (@data-product-position='1')]/a[contains(@href,'/jamaica-blue-mountain-capsule-cafe')]\n",
-    "productTitle" : "//td[contains(@headers,'capsules_original jamaica-blue-mountain-capsule')and (@class='MiniBasketItem__title')]"
+    "article": "jamaica-blue-mountain",
+    "productTitle" : "capsules_original jamaica-blue-mountain-capsule"
+
   }
 ]

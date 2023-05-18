@@ -9,9 +9,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.NoSuchElementException;
+
+import static org.openqa.selenium.By.xpath;
 
 public class BasketPage{
     WebDriver driver;
@@ -24,7 +27,7 @@ public class BasketPage{
     }
 
     //check if the product is in the basket
-    public String procedToCheckout(WebDriver driver,String productTitle,String productName,ExtentTest test) throws InterruptedException {
+    public void procedToCheckout(WebDriver driver,String productTitle,String productName,ExtentTest test) throws InterruptedException {
         //Fluent wait setup
         FluentWait waitfluentb = new FluentWait(driver)
                 .withTimeout(Duration.ofSeconds(30))
@@ -34,15 +37,17 @@ public class BasketPage{
         waitfluentb.until(ExpectedConditions.elementToBeClickable(buttonOpenBasket));
         buttonOpenBasket.click();
         // Move to product in basket and get title
-        WebElement  productInBasket=(WebElement)  waitfluentb.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(productTitle)));
-        String titleProductInBasket= productInBasket.getText();
+        WebElement productInBasket = (WebElement) waitfluentb.until(ExpectedConditions.elementToBeClickable((xpath("//td[contains(@headers,'" + productTitle + "')and (@class='MiniBasketItem__title')]"))));
+        String titleProductInBasket = productInBasket.getText();
         //Check product name
-        if(titleProductInBasket.contains(productName))
-        {test.log(LogStatus.PASS, "the same product added"+productName);}
-        else
-        {test.log(LogStatus.FAIL, "Test Failed product added"+productName);}
-        return titleProductInBasket;
+        if (titleProductInBasket.contains(productName)) {
+            test.log(LogStatus.PASS, "the same product added" + productName);
+        } else {
+            test.log(LogStatus.FAIL, "Test Failed product added" + productName);
+        }
+
 
     }
+
 
 }

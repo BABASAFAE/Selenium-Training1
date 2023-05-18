@@ -6,11 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TraitementJson {
+public class Traitement {
     static ExtentTest test;
     static ExtentReports report;
     WebDriver driver;
@@ -37,15 +36,15 @@ public class TraitementJson {
         for (int i = 0; i < arrayList.size(); i++) {
 
             //class instantiation from choose article to add it into basket
-            OrderPageCf1 orderPageCf1 = new OrderPageCf1(driver);
+            HomePage homePage = new HomePage(driver);
             //class instantiation open and check the basket
             BasketPage basketPage = new BasketPage(driver);
             //class instantiation check login
             LoginPage loginPage = new LoginPage(driver);
             //choose article from menu to article
-            orderPageCf1.ChooseArticle(driver, arrayList.get(i).getType(), arrayList.get(i).getArticle());
+            homePage.ChooseArticle(driver, arrayList.get(i).getType(), arrayList.get(i).getArticle());
             //add article into basket
-            orderPageCf1.AddToBasket(driver);
+            homePage.AddToBasket(driver);
             //Check product name
             basketPage.procedToCheckout(driver, arrayList.get(i).getproductTitle(), arrayList.get(i).getName(), test);
             //second step check when I click in proced checkout btton then the site redirect destination to login page
