@@ -10,8 +10,8 @@ Feature: Add product into basket
     And The user clicks on the Add to Basket button
     And the user selects the quantity
     And The user clicks on the Your Basket button
-    Then the product should be listed in the basket <productTitle> and product name <productName>
-    And The user clicks on Proceed to Checkout button
+    Then the product should be listed in the basket <productTitle>  <productName>
+    When The user clicks on Proceed to Checkout button
     Then The login page displays <productName>
     Examples:
       | type     | article               | productTitle                       | productName           |

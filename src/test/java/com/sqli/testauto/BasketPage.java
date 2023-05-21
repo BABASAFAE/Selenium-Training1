@@ -14,20 +14,24 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.NoSuchElementException;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.openqa.selenium.By.xpath;
 
 public class BasketPage{
     WebDriver driver;
+    ExtentTest test;
     @FindBy(xpath = "//button[@id=\"ta-mini-basket__open\"]")
     WebElement buttonOpenBasket;
 
-    public BasketPage(WebDriver driver) {
+    public BasketPage(WebDriver driver, ExtentTest test) {
+        this.test=test;
         this.driver=driver;
         PageFactory.initElements(driver, this);
     }
 
     //check if the product is in the basket
-    public void procedToCheckout(WebDriver driver,String productTitle,String productName,ExtentTest test) throws InterruptedException {
+    public void checkProductIntoBasket(String productTitle,String productName) throws InterruptedException {
         //Fluent wait setup
         FluentWait waitfluentb = new FluentWait(driver)
                 .withTimeout(Duration.ofSeconds(30))
@@ -40,11 +44,15 @@ public class BasketPage{
         WebElement productInBasket = (WebElement) waitfluentb.until(ExpectedConditions.elementToBeClickable((xpath("//td[contains(@headers,'" + productTitle + "')and (@class='MiniBasketItem__title')]"))));
         String titleProductInBasket = productInBasket.getText();
         //Check product name
-        if (titleProductInBasket.contains(productName)) {
-            test.log(LogStatus.PASS, "the same product added" + productName);
-        } else {
-            test.log(LogStatus.FAIL, "Test Failed product added" + productName);
-        }
+        try{
+            if (titleProductInBasket.contains(productName)) {
+                test.log(LogStatus.PASS, "the same product added" + productName);
+            } else {
+                test.log(LogStatus.FAIL, "Test Failed product added" + productName);
+            }
+        }catch(Exception ex){}
+
+        assertThat(titleProductInBasket, containsString(productName));
 
 
     }

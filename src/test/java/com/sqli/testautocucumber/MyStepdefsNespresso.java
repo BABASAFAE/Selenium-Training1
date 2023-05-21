@@ -18,6 +18,9 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.NoSuchElementException;
+import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.openqa.selenium.By.xpath;
 
 
@@ -36,6 +39,8 @@ public class MyStepdefsNespresso {
     WebElement buttonProceedTocheckout;
     @FindBy(xpath = "//div[@id='loginContainer']/h2[@class='heading']")
     WebElement title;
+    @FindBy(xpath = "//a[contains(@class,'AccessibleLink HeaderNavigationBarDropdown__medium-link')]")
+    WebElement submenu;
     Actions actions;
     FluentWait waitfluent;
     //Fluent wait setup
@@ -48,6 +53,8 @@ public class MyStepdefsNespresso {
         options.addArguments("--disable-blink-features=AutomationControlled");
         options.addArguments("--remote-allow-origins=*");
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+        options.addArguments("--disable-javascript");
+        options.addArguments("--incognito");
         driver= new ChromeDriver(options);
         driver.manage().window().maximize();
         PageFactory.initElements(driver, this);
@@ -81,16 +88,19 @@ public class MyStepdefsNespresso {
         WebElement menu =  (WebElement)waitfluent.until(ExpectedConditions.elementToBeClickable((xpath("  //ul[contains(@class,'HeaderNavigationBar')]/li[contains(@class,'HeaderNavigationBarItem')]/a[contains(@href,'/order/"+type+"/')]"))));
         //click on  sub menu
         new Actions(driver).moveToElement(menu).perform();
+
     }
     @And("the user clicks on the submenu")
-    public void theUserClicksOnTheSubmenu() {
+    public void theUserClicksOnTheSubmenu() throws InterruptedException {
+        new WebDriverWait(driver, Duration.ofSeconds(7)).until(ExpectedConditions.visibilityOf(submenu));
+        new Actions(driver).moveToElement(submenu).click().perform();
 
-        waitfluent.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class,'AccessibleLink HeaderNavigationBarDropdown__medium-link')]")));
+    /*    waitfluent.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class,'AccessibleLink HeaderNavigationBarDropdown__medium-link')]")));
         WebElement submenu = driver.findElement(By.xpath("//a[contains(@class,'AccessibleLink HeaderNavigationBarDropdown__medium-link')]"));
-        actions.moveToElement(submenu).click().perform();
+        actions.moveToElement(submenu).click().perform();*/
 
     }
-    @And("^the user clicks on the article (.+)$")
+    @When("^the user clicks on the article (.+)$")
     public void the_user_clicks_on_the_article(String article) throws Throwable {
 //go and click to the first article
         WebElement articleProduct = (WebElement) waitfluent.until(ExpectedConditions.elementToBeClickable((xpath(" //article[contains(@data-product-position,'1')]//a[contains(@href,'/"+article+"')]"))));
@@ -123,21 +133,18 @@ public void the_user_clicks_on_the_your_basket_button() throws Throwable {
     Thread.sleep(3000);
 
 }
-    @Then("the product should be listed in the basket {} and product name {}")
-    public void theProductShouldBeListedInTheBasketAndProductName(String productTitle, String productName) throws Throwable  {
-        // Move to product in basket and get title
+    @Then("the product should be listed in the basket {}  {}")
+    public void theProductShouldBeListedInTheBasket(String productTitle, String productName) throws Throwable  {
+
+       // Move to product in basket and get title
         WebElement productInBasket = (WebElement) waitfluent.until(ExpectedConditions.elementToBeClickable((xpath("//td[contains(@headers,'" + productTitle + "')and (@class='MiniBasketItem__title')]"))));
         //click on  sub menu
         String titleProductInBasket = productInBasket.getText();
         //Check product name
-        if(titleProductInBasket.contains(productName))
-        {System.out.println( "the same product added"+productName);}
-        else
-        {System.out.println("Test Failed product added"+productName);}
-
+        assertThat(titleProductInBasket, containsString(productName));
 
     }
-    @And("^The user clicks on Proceed to Checkout button$")
+    @When("^The user clicks on Proceed to Checkout button$")
     public void the_user_clicks_on_proceed_to_checkout_button() throws Throwable {
         //click to proced checkout button
         waitfluent.until(ExpectedConditions.elementToBeClickable(buttonProceedTocheckout));
@@ -150,10 +157,9 @@ public void the_user_clicks_on_the_your_basket_button() throws Throwable {
         //check the title of login
         String titleLoginPage= new WebDriverWait(driver, Duration.ofSeconds(7)).until(ExpectedConditions.visibilityOf(title)).getText();
         System.out.println("title login page "+titleLoginPage);
-        if(titleLoginPage.contains("SE CONNECTER")||titleLoginPage.contains("LOG IN"))
-        {System.out.println( "login page appears"+productName);}
-        else
-        {System.out.println( "Test Failed login page"+productName);}
+        // Assert that the text contains either "Example" or "Domain"
+
+        assertThat(titleLoginPage, anyOf(containsString("SE CONNECTER"), containsString("LOG IN")));
     }
 
 

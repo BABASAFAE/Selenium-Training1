@@ -1,6 +1,6 @@
 package com.sqli.testauto;
 
-public class Catalogue {
+public class Product {
     private String name;
 
     public String getName() {
@@ -47,7 +47,7 @@ public class Catalogue {
         this.productTitle = productTitle;
     }
 
-    public Catalogue(String name, String type, double quantite, String article, String productTitle) {
+    public Product(String name, String type, double quantite, String article, String productTitle) {
         this.name = name;
         this.type = type;
         this.quantite = quantite;

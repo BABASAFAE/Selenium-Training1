@@ -13,20 +13,21 @@ public class Traitement {
     static ExtentTest test;
     static ExtentReports report;
     WebDriver driver;
-    ArrayList<Catalogue> arrayList;
+    ArrayList<Product> arrayList;
+    String browserName="chrome";
 
     @Before
     public void setUp() throws IOException {
-        //class instantiation beforeTest
-        BeforeTest beforeTest = new BeforeTest();
+        //class instantiation Base
+        Base base=new Base(driver,browserName);
         //convert json to array
-        arrayList = beforeTest.convertJsonToArrayList();
+        arrayList = base.convertJsonToArrayList();
         //setup report
-        beforeTest.setUpReport();
+        base.setUpReport();
         //setup webdriver
-        driver = beforeTest.setUpWebDriver();
-        test = beforeTest.getTest();
-        report = beforeTest.getReport();
+        driver = base.setUpWebDriver();
+        test = base.getTest();
+        report = base.getReport();
     }
 
     @Test
@@ -38,17 +39,18 @@ public class Traitement {
             //class instantiation from choose article to add it into basket
             HomePage homePage = new HomePage(driver);
             //class instantiation open and check the basket
-            BasketPage basketPage = new BasketPage(driver);
+            BasketPage basketPage = new BasketPage(driver, test);
             //class instantiation check login
-            LoginPage loginPage = new LoginPage(driver);
+            LoginPage loginPage = new LoginPage(driver,test);
             //choose article from menu to article
-            homePage.ChooseArticle(driver, arrayList.get(i).getType(), arrayList.get(i).getArticle());
+            homePage.ChooseArticle( arrayList.get(i).getType(), arrayList.get(i).getArticle());
             //add article into basket
-            homePage.AddToBasket(driver);
+            homePage.AddToBasket();
             //Check product name
-            basketPage.procedToCheckout(driver, arrayList.get(i).getproductTitle(), arrayList.get(i).getName(), test);
+            basketPage.checkProductIntoBasket( arrayList.get(i).getproductTitle(), arrayList.get(i).getName());
             //second step check when I click in proced checkout btton then the site redirect destination to login page
-            loginPage.checkLogin(driver, arrayList.get(i).getName(), test);
+            loginPage.proceedToCheckout();
+            loginPage.checkDisplayLoginPage(arrayList.get(i).getName());
             //navigate to the website
             driver.navigate().to("https://www.nespresso.com/fr/fr/");
 
@@ -58,8 +60,9 @@ public class Traitement {
 
     @After
     public void afterTest() {
-        AfterTest afterTest=new AfterTest(driver);
-        afterTest.afterTestSetUp();
+        //AfterTest afterTest=new AfterTest(driver);
+        Base base=new Base(driver,browserName);
+        base.afterTestSetUp();
 
     }
 

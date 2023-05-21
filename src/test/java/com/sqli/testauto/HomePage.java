@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+
 import static org.openqa.selenium.By.xpath;
 
 public class HomePage {
@@ -21,10 +23,11 @@ WebDriver driver;
     WebElement buttonAddToBag;
     @FindBy(xpath = " //button[@id='ta-quantity-selector__predefined-1']")
     WebElement buttonChooseQuantity;
-    @FindBy(xpath = "//a[contains(@class,'AccessibleLink HeaderNavigationBarDropdown__medium-link')]")
+    @FindBy(xpath = "//a[contains(@class,'HeaderNavigationBarDropdown__medium-link')]")
     WebElement submenu;
+    //Fluent wait setup
 
-    public void ChooseArticle(WebDriver driver,String type,String articledata) throws InterruptedException {
+    public void ChooseArticle(String type,String articledata) throws InterruptedException {
         //Fluent wait setup
         FluentWait waitfluent = new FluentWait(driver)
                 .withTimeout(Duration.ofSeconds(20))
@@ -44,26 +47,29 @@ WebDriver driver;
         WebElement menu =  (WebElement)waitfluent.until(ExpectedConditions.elementToBeClickable((xpath("  //ul[contains(@class,'HeaderNavigationBar')]/li[contains(@class,'HeaderNavigationBarItem')]/a[contains(@href,'/order/"+type+"/')]"))));
         //click on  sub menu
         new Actions(driver).moveToElement(menu).perform();
-        new WebDriverWait(driver, Duration.ofSeconds(7)).until(ExpectedConditions.visibilityOf(submenu));
+        //waitfluent.until(ExpectedConditions.visibilityOf(submenu));
+       new WebDriverWait(driver, Duration.ofSeconds(7)).until(ExpectedConditions.visibilityOf(submenu));
        actions.moveToElement(submenu).click().perform();
         //go and click to the first article
         WebElement article = (WebElement) waitfluent.until(ExpectedConditions.elementToBeClickable((xpath(" //article[contains(@data-product-position,'1')]//a[contains(@href,'/"+articledata+"')]"))));
         article.click();
-        driver.navigate().refresh();
+
+       //driver.navigate().refresh();
+
 
     }
 
 
-    public void AddToBasket(WebDriver driver) throws InterruptedException {
-        //Instantiating Actions class
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        System.out.println("pannier");
-        //explicit wait button will be cliquable  //go and click in button add to basket
-        wait.until(ExpectedConditions.elementToBeClickable(buttonAddToBag));
+    public void AddToBasket() throws InterruptedException {
+        //Fluent wait setup
+        FluentWait waitfluent = new FluentWait(driver)
+                .withTimeout(Duration.ofSeconds(20))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(NoSuchElementException.class);
+        waitfluent.until(ExpectedConditions.elementToBeClickable(buttonAddToBag));
         buttonAddToBag.click();
         //go and select quantite 10 to added into basket
-        wait.until(ExpectedConditions.elementToBeClickable(buttonChooseQuantity));
+        waitfluent.until(ExpectedConditions.elementToBeClickable(buttonChooseQuantity));
         buttonChooseQuantity.click();
         Thread.sleep(3000);
 
