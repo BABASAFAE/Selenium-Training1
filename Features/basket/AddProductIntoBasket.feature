@@ -8,6 +8,7 @@ Feature: Add product to basket
     When  the user proceeds to checkout
     Then  the login page displays <productName>
 
+
     Examples:
       | type     | article               | productTitle                       | productName           |
       | machines | creatista-pro         | creatista-pro                      | Creatista Pro         |
